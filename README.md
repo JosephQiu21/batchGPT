@@ -1,6 +1,10 @@
 # batchGPT
 
-A Python script leveraging the OpenAI API, specifically the GPT-3.5-turbo-16k model, to process large text inputs. I wrote this script to post-processing (refining and translating) the transcription of some lectures I took using Google's Speech-to-Text API. You can define your own prompt for your text processing job.
+This Python script utilizes the OpenAI API, specifically the GPT-3.5-turbo-16k model, to handle large text inputs. 
+
+I developed this script to refine and translate the transcriptions of lectures I recorded using Google’s Speech-to-Text API. You can define your own prompt for your text processing task.
+
+The script divides the input into smaller, manageable chunks, processes each chunk, and combines the outputs from multiple API calls.
 
 The script efficiently breaks the input into manageable chunks, processes each chunk, and then invokes separate API calls and provides the joint output.
 
@@ -15,7 +19,7 @@ The script efficiently breaks the input into manageable chunks, processes each c
 
 ## Setup & Installation
 
-1. Clone this repository:
+1. Clone this repository.
 
 2. Download the required NLTK tokenizer:
    ```
