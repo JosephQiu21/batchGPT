@@ -6,8 +6,6 @@ I developed this script to refine and translate the transcriptions of lectures I
 
 The script divides the input into smaller, manageable chunks, processes each chunk, and combines the outputs from multiple API calls.
 
-The script efficiently breaks the input into manageable chunks, processes each chunk, and then invokes separate API calls and provides the joint output.
-
 ## My Prompts
 - **Refine Text**: Improve the quality of transcriptions or any large text by refining grammar, maintaining tone, preserving humor, and improving readability.
 - **Translate Text**: Convert English text into Chinese, providing high-quality, fluent translations with an emphasis on simplicity and clarity.
