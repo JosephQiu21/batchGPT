@@ -71,7 +71,8 @@ def process(input_file, action):
             ]
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo-16k",
-                messages=messages
+                messages=messages,
+                request_timeout=15
             )
             edited_chunk = response.choices[0].message['content'].strip()
             print(edited_chunk)
