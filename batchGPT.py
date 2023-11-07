@@ -1,18 +1,16 @@
 import sys
 import os
-import openai
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
+from openai import OpenAI
 
 nltk.download('punkt')
 
-openai.api_key = os.environ.get('OPENAI_API_KEY')
-if not openai.api_key:
-    raise ValueError("OPENAI_API_KEY environment variable not set")
+client = OpenAI()
 
 # We use 5k token input for GPT-3.5-turbo-16k model
 # You might want to make some adjustment
-MAX_SIZE = 5000
+MAX_SIZE = 10000
 
 # Split long texts into chunks of sentences
 def split_into_chunks(text, max_size=MAX_SIZE):
@@ -33,7 +31,7 @@ def split_into_chunks(text, max_size=MAX_SIZE):
     return chunks
 
 def process(input_file, action):
-    output_file = os.path.splitext(input_file)[0] + (".qmd" if action == "refine" else ".translated.txt")
+    output_file = os.path.splitext(input_file)[0] + (".refined.txt" if action == "refine" else ".translated.txt")
 
     with open(input_file, 'r') as f:
         content = f.read()
@@ -43,14 +41,16 @@ def process(input_file, action):
 
     if action == "refine":
         system_text = """
-        As a Computer Science professor, your task is to proofread and correct a raw transcript of your course. The text has been transcribed using Google’s Speech-to-Text API, resulting in grammar mistakes and recognition errors. Your goal is to recover the original lecture transcript and provide the entire corrected text.
+        As a Computer Science professor, your task is to proofread and correct a raw transcript of your course. 
+        The text has been transcribed using Google's Speech-to-Text API, resulting in grammar mistakes and recognition errors. 
+        Your goal is to recover the original lecture transcript and provide the entire corrected text.
 
         To successfully complete this task, please consider the following guidelines:
 
         1. Error correction: Carefully examine the transcript and correct any grammar mistakes and recognition errors. Ensure that the corrected text accurately reflects the content of the lecture.
-        2. Maintain tone and voice: While correcting errors, it is important to preserve the original tone and voice of the lecture. Pay attention to the professor’s style of delivery, ensuring that the corrected text captures the same essence.
+        2. Maintain tone and voice: While correcting errors, it is important to preserve the original tone and voice of the lecture. Pay attention to the professor's style of delivery, ensuring that the corrected text captures the same essence.
         3. Preserve humor: Never remove or alter jokes made by the professor. It is important to maintain the humor and light-heartedness of the lecture, as humor often helps engage students and make the subject more enjoyable.
-        4. Improve readability: Use paragraphs to enhance the readability of the corrected text. Divide the transcript into logical sections and create paragraphs accordingly. This will make it easier for students to follow along and digest the content.
+        4. Improve readability: Use paragraphs to enhance the readability of the corrected text. Do not generate a markdown note, but rather a text file of your transcript.
 
         By following these guidelines, you will be able to provide an optimized lecture transcript that is free from errors, preserves the original tone and humor, and maintains readability with appropriate paragraph breaks.
         """
@@ -65,16 +65,14 @@ def process(input_file, action):
 
     with open(output_file, 'w') as f:
         for chunk in chunks:
-            messages = [
-                {"role": "system", "content": system_text},
-                {"role": "user", "content": chunk}
-            ]
-            response = openai.ChatCompletion.create(
+            completion = client.chat.completions.create(
                 model="gpt-3.5-turbo-16k",
-                messages=messages,
-                request_timeout=15
+                messages=[
+                    {"role": "system", "content": system_text},
+                    {"role": "user", "content": chunk}
+                ]
             )
-            edited_chunk = response.choices[0].message['content'].strip()
+            edited_chunk = completion.choices[0].message.content
             print(edited_chunk)
             f.write(edited_chunk + '\n')
 
