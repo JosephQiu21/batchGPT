@@ -47,6 +47,11 @@ python batchGPT.py myLectureTranscription.txt refine
 
 The prompts provided for refining and translating are generic. If you're working with a specific domain or need more customized results, you're encouraged to modify the `system_text` within the script. Create prompts that guide the model to deliver results in the manner you desire.
 
+## Updates
+
+- The script now utilizes the GPT-3.5-turbo-1106 model, offering updated API capabilities for faster and more accurate results.
+- A seed feature has been introduced to ensure consistent responses.
+
 ## License
 
 This project is licensed under the MIT License.

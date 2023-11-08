@@ -53,6 +53,7 @@ def process(input_file, action):
         3. Preserve humor: Never remove or alter jokes made by the professor. It is important to maintain the humor and light-heartedness of the lecture, as humor often helps engage students and make the subject more enjoyable.
         4. Improve readability: Seperate the transcript into paragraphs of appropriate length to enhance the readability of the corrected text. 
         5. Use Markdown syntax: Use Markdown syntax to format the text.
+        6. You might be provided with a section of the transcript, so do not add any response other than the corrected text.
 
         """
     elif action == "translate":
@@ -78,7 +79,8 @@ def process(input_file, action):
                 messages=[
                     {"role": "system", "content": system_text},
                     {"role": "user", "content": chunk}
-                ]
+                ],
+                seed=94703
             )
             edited_chunk = completion.choices[0].message.content
             print(edited_chunk)
