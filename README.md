@@ -1,6 +1,6 @@
 # batchGPT
 
-This Python script utilizes the OpenAI API, specifically the GPT-3.5-turbo-16k model, to handle large text inputs. 
+This Python script utilizes the OpenAI API, specifically the updated GPT-3.5-turbo-1106 model, to handle large text inputs. 
 
 I developed this script to refine and translate the transcriptions of lectures I recorded using Google’s Speech-to-Text API. You can define your own prompt for your text processing task.
 
@@ -32,15 +32,16 @@ The script divides the input into smaller, manageable chunks, processes each chu
 ## Usage
 
 ```
-python batchGPT.py <path_to_input_file> [refine/translate]
+python batchGPT.py <path_to_input_file> [refine/translate] <model>
 ```
 - `<path_to_input_file>`: Path to the file containing the text you want to refine or translate.
 - `refine`: For refining and improving the quality of the text.
 - `translate`: For translating the text from English to Chinese.
+- `model`: Choose `3` for the GPT-3.5-turbo-1106 model or `4` for the GPT-4-1106-preview model.
 
 For example:
 ```
-python batchGPT.py myLectureTranscription.txt refine
+python batchGPT.py myLectureTranscription.txt refine 3
 ```
 
 ## Customizing the Prompt
@@ -51,6 +52,8 @@ The prompts provided for refining and translating are generic. If you're working
 
 - The script now utilizes the GPT-3.5-turbo-1106 model, offering updated API capabilities for faster and more accurate results.
 - A seed feature has been introduced to ensure consistent responses.
+- Add model selection as a command line argument. Now you can choose between the GPT-3.5-turbo-1106 model and the GPT-4-1106-preview model.
+- Update fine-tuned prompt and seed for refining text. It performs exceptionally well using GPT-4-1106-preview.
 
 ## License
 
